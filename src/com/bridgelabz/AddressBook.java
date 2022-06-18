@@ -31,7 +31,27 @@ public class AddressBook {
 	// main Method
 	public static void main(String[] args) {
 		System.out.println("****** Welcome To The Address Book Program ******");
-		addContact();
+
+		Scanner scanner = new Scanner(System.in);
+		int exit = 1;
+		while (exit == 1) {
+			System.out.println("Choose your choice: 1.Add 2.Exit");
+			int choice = scanner.nextInt();
+
+			switch (choice) {
+			case 1:
+				addContact();
+				break;
+			case 2:
+				exit = 0;
+				break;
+			case 3:
+				System.out.println("Enter a valid choice");
+				break;
+
+			}
+
+		}
 		System.out.println(contactList);
 	}
 }
