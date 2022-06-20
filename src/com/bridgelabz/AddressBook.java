@@ -28,30 +28,23 @@ public class AddressBook {
 		contactList.add(addressBook);
 	}
 
-	// main Method
-	public static void main(String[] args) {
-		System.out.println("****** Welcome To The Address Book Program ******");
+	// method for editing existing contact
+	public void editContact() {
+		Scanner sc = new Scanner(System.in);
+		System.out.println(" Enter the first name ");
+		String fName = sc.nextLine();
 
-		Scanner scanner = new Scanner(System.in);
-		int exit = 1;
-		while (exit == 1) {
-			System.out.println("Choose your choice: 1.Add 2.Exit");
-			int choice = scanner.nextInt();
+		for (int index = 0; index < contactList.size(); index++) {
 
-			switch (choice) {
-			case 1:
-				addContact();
-				break;
-			case 2:
-				exit = 0;
-				break;
-			case 3:
-				System.out.println("Enter a valid choice");
-				break;
+			if (contactList.get(index).getFirstName().equals(fName)) {
+				contactList.remove(index);
 
+				AddressBook addressBook = new AddressBook();
+				addressBook.addContact();
+
+			} else {
+				System.out.println(" There is no contact ");
 			}
-
 		}
-		System.out.println(contactList);
 	}
 }
