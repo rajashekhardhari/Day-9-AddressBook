@@ -29,22 +29,22 @@ public class AddressBook {
 	}
 
 	// method for editing existing contact
-	public void editContact() {
-		Scanner sc = new Scanner(System.in);
-		System.out.println(" Enter the first name ");
-		String fName = sc.nextLine();
+		public void editContact() {
+			Scanner sc = new Scanner(System.in);
+			System.out.println(" Enter the first name ");
+			String fName = sc.nextLine();
 
-		for (int index = 0; index < contactList.size(); index++) {
+			for (int index = 0; index < contactList.size(); index++) {
 
-			if (contactList.get(index).getFirstName().equals(fName)) {
-				contactList.remove(index);
+				if (contactList.get(index).getFirstName().equals(fName)) {
+					contactList.remove(index);
 
-				AddressBook addressBook = new AddressBook();
-				addressBook.addContact();
+					AddressBook addressBook = new AddressBook();
+					addressBook.addContact();
 
-			} else {
-				System.out.println(" There is no contact ");
+				} else {
+					System.out.println(" There is no contact ");
+				}
 			}
 		}
-	}
 }
