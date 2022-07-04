@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AddressBook {
+
 	ArrayList<Contact> list = new ArrayList<Contact>();//// It represents a single diary where contact has been stored
 	String bookName; /// It represent the name of diary
 
@@ -70,7 +71,8 @@ public class AddressBook {
 		while (true) {
 			AddressBook addressBook = new AddressBook();
 			Scanner scan3 = new Scanner(System.in);
-			System.out.println("Enter the name of Book you want to  access or add or press 'q' to quit");
+			System.out.println(
+					"Enter the name of Book you want to  access or add  or type 'search' to search persons or press 'q' to quit");
 			String bookName = scan3.nextLine();
 			if (bookName.equals("q")) {
 				// if (addressBook.list.size() > 0) {
@@ -78,9 +80,15 @@ public class AddressBook {
 				// }
 				System.out.println("The program is closed");
 				break;
+			} else if (bookName.equals("search")) {
+				Scanner scan = new Scanner(System.in);
+				System.out.println("Enter the name of city or state you want to search :");
+				String placeName = scan.nextLine();
+				shelf.showPersons(placeName);
+				continue;
 			}
-			int result = shelf.checkBook(bookName);//// (It can return 0 or 1)It will return 1 if book exist b and break
-			//// down loop
+			int result = shelf.checkBook(bookName);//// (It can return 0 or 1)It will return 1 if book exist b and
+													//// breakdown loop
 			int condition = 0;///// It will keep check on the addressbook created or not
 			while (true) {
 				if (result == 1) {
@@ -106,14 +114,10 @@ public class AddressBook {
 					System.out.println("Enter the first name of the person you want to delete : ");
 					String name = scan2.nextLine();
 					addressBook.deletePerson(name, addressBook.list);
-				}
-
-				else if (input == 3) {
+				} else if (input == 3) {
 					shelf.addBook(bookName, addressBook);
 					break;
-				}
-
-				else {
+				} else {
 					System.out.println("Enter the valid command");
 				}
 			}
