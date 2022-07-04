@@ -4,113 +4,121 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AddressBook {
+	ArrayList<Contact> list = new ArrayList<Contact>();//// It represents a single diary where contact has been stored
+	String bookName; /// It represent the name of diary
 
-	static ArrayList<Contacts> contactList = new ArrayList<>();
-	static Scanner sc = new Scanner(System.in);
+	void addContact() {
+		Contact contact = new Contact();
+		contact.addContact();
+		boolean duplicateContact = list.stream().anyMatch(x -> x.firstName.equals(contact.firstName));
+		if (duplicateContact == true) {
+			System.out.println("It is a duplicate contact.");
+			return;
+		} else {
+			list.add(contact);
+			System.out.println("Contact added successfully");
+		}
+
+	}
+
+	void deletePerson(String name, ArrayList<Contact> list) {
+		if (list.size() == 0) {
+			System.out.println("Address book is empty.Please Add First");
+		} else {
+			int m = 0;
+			for (int i = list.size() - 1; i >= 0; --i) {
+				if (list.get(i).firstName.contains(name)) {
+					list.remove(i);
+					System.out.println("Contact deleted successfully");
+					m += 1;
+					break;
+				}
+			}
+			if (m == 0) {
+				System.out.println("No contact with the given name exist");
+			}
+		}
+
+	}
+
+	void editPerson(String name, ArrayList<Contact> list) {
+		if (list.size() == 0) {
+			System.out.println("Addressbook is empty.Please add First");
+		} else {
+			int m = 0;
+			for (int i = list.size() - 1; i >= 0; --i) {
+				if (list.get(i).firstName.contains(name)) {
+					list.get(i).addContact();
+					System.out.println("Contact Updated successfully");
+					m += 1;
+					break;
+				}
+			}
+			if (m == 0) {
+				System.out.println("No contact with the given name exist");
+			}
+		}
+
+	}
 
 	public static void main(String[] args) {
 
-		AddressBook addressBook = new AddressBook();
-		Scanner sc = new Scanner(System.in);
-		int exit = 1;
-		while (exit == 1) {
-			System.out.println(" Welcome to address book program ");
-			System.out.println(" Select a choice : 1. Add 2.Edit 3.Delete  4. Exit");
-			System.out.print(":==");
-			int choice = sc.nextInt();
-			switch (choice) {
-			case 1:
-				addressBook.addContact();
-				break;
+		System.out.println("Welcome to Address Book Program ");
 
-			case 2:
-				if (addressBook.contactList.isEmpty()) {
-					System.out.println(" Address book is empty ");
+		BookList shelf = new BookList();
+
+		while (true) {
+			AddressBook addressBook = new AddressBook();
+			Scanner scan3 = new Scanner(System.in);
+			System.out.println("Enter the name of Book you want to  access or add or press 'q' to quit");
+			String bookName = scan3.nextLine();
+			if (bookName.equals("q")) {
+				// if (addressBook.list.size() > 0) {
+				// book.addBook(bookName, addressBook);
+				// }
+				System.out.println("The program is closed");
+				break;
+			}
+			int result = shelf.checkBook(bookName);//// (It can return 0 or 1)It will return 1 if book exist b and break
+			//// down loop
+			int condition = 0;///// It will keep check on the addressbook created or not
+			while (true) {
+				if (result == 1) {
 					break;
 				}
-				addressBook.editContact();
-				break;
+				System.out
+						.println("Do you want to add/edit/delete the contact (0/1/2) :Press 3 to Go back to main menu");
+				Scanner scan = new Scanner(System.in);
+				int input = scan.nextInt();
 
-			case 3:
-				if (addressBook.contactList.isEmpty()) {
-					System.out.println(" Address book is empty ");
+				if (input == 0) {
+
+					addressBook.addContact();
+
+				} else if (input == 1) {
+					Scanner scan1 = new Scanner(System.in);
+					System.out.println("Enter the first name of person you to edit ");
+					String name = scan1.nextLine();
+					addressBook.editPerson(name, addressBook.list);
+
+				} else if (input == 2) {
+					Scanner scan2 = new Scanner(System.in);
+					System.out.println("Enter the first name of the person you want to delete : ");
+					String name = scan2.nextLine();
+					addressBook.deletePerson(name, addressBook.list);
+				}
+
+				else if (input == 3) {
+					shelf.addBook(bookName, addressBook);
 					break;
 				}
-				addressBook.deleteContact();
 
-			case 4:
-				exit = 0;
-				break;
-
-			default:
-				System.out.println(" Enter a valid choice");
-				break;
+				else {
+					System.out.println("Enter the valid command");
+				}
 			}
 		}
-		System.out.println(addressBook.contactList);
-	}
 
-	public static void addContact() {
-
-		System.out.println(" Enter your first name : ");
-		String firstName = sc.nextLine();
-
-		System.out.println(" Enter your last name : ");
-		String lastName = sc.nextLine();
-
-		System.out.println(" Enter your city name : ");
-		String city = sc.nextLine();
-
-		System.out.println("Enter your state  : ");
-		String state = sc.nextLine();
-
-		System.out.println(" Enter your zip code : ");
-		long zip = sc.nextLong();
-
-		System.out.println(" Enter your phone number : ");
-		long phoneNumber = sc.nextLong();
-
-		System.out.println(" Enter your email : ");
-		String email = sc.next();
-
-		Contacts addressBook = new Contacts(firstName, lastName, email, city, state, phoneNumber, zip);
-		contactList.add(addressBook);
-	}
-
-	// method for editing existing contact
-	public void editContact() {
-
-		Scanner sc = new Scanner(System.in);
-		System.out.println(" Enter the first name ");
-		String fName = sc.nextLine();
-
-		for (int index = 0; index < contactList.size(); index++) {
-
-			if (contactList.get(index).getFirstName().equals(fName)) {
-				contactList.remove(index);
-
-				AddressBook addressBook = new AddressBook();
-				addressBook.addContact();
-
-			} else {
-				System.out.println(" There is no contact ");
-			}
-		}
-	}
-
-	public void deleteContact() {
-
-		Scanner deleteNameInput = new Scanner(System.in);
-		System.out.println(" Enter the first name ");
-		String deleteFirstName = deleteNameInput.nextLine();
-
-		for (int increment = 0; increment < contactList.size(); increment++) {
-			if (contactList.get(increment).getFirstName().equals(deleteFirstName)) {
-				contactList.remove(increment);
-			} else {
-				System.out.println(" Name does not exist");
-			}
-		}
 	}
 
 }
