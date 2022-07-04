@@ -35,4 +35,10 @@ public class Contact {
 		this.zip = scan.nextLine();
 	}
 
+	@Override
+	public String toString() {
+		return "Contact [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", city=" + city
+				+ ", state=" + state + ", phoneNumber=" + phoneNumber + ", email=" + email + ", zip=" + zip + "]";
+	}
+
 }

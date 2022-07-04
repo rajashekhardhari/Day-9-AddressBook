@@ -63,7 +63,6 @@ public class AddressBook {
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 		System.out.println("Welcome to Address Book Program ");
 
@@ -94,20 +93,19 @@ public class AddressBook {
 				shelf.showPersonsByState(placeName);
 				continue;
 			}
-			int result = shelf.checkBook(bookName);//// (It can return 0 or 1)It will return 1 if book exist b and break
-			//// down loop
+			int result = shelf.checkBook(bookName);//// (It can return 0 or 1)It will return 1 if book exist b and
+													//// breakdown loop
 			int condition = 0;///// It will keep check on the addressbook created or not
 			while (true) {
 				if (result == 1) {
 					break;
 				}
-				System.out
-						.println("Do you want to add/edit/delete the contact (0/1/2) :Press 3 to Go back to main menu");
+				System.out.println(
+						"Do you want to add/edit/delete/  the contacts (0/1/2) :Press 4 to see the sorted contacts Press 3 to Go back to main menu");
 				Scanner scan = new Scanner(System.in);
 				int input = scan.nextInt();
 
 				if (input == 0) {
-
 					addressBook.addContact();
 
 				} else if (input == 1) {
@@ -126,6 +124,9 @@ public class AddressBook {
 				else if (input == 3) {
 					shelf.addBook(bookName, addressBook);
 					break;
+				} else if (input == 4) {
+					addressBook.list.sort((Contact x1, Contact x2) -> x1.firstName.compareTo(x2.firstName));
+					addressBook.list.forEach((s) -> System.out.println(s));
 				}
 
 				else {

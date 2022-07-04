@@ -71,7 +71,8 @@ public class BookList {
 		int condition1 = 0;/// This is for checking the contact name exist or not
 		int condition = 0; /// This is condition for running while loop
 		while (condition == 0) {
-			System.out.println("Do you want to add/edit/delete contact (0/1/2) :Press 3 to go back to main menu");
+			System.out.println(
+					"Do you want to add/edit/delete contact (0/1/2) :Press 3 to go back to main menu: Press 4 to sort contact");
 			int response = input.nextInt();
 			switch (response) {
 			case 0:
@@ -131,6 +132,15 @@ public class BookList {
 				break;
 			case 3:
 				condition = 1;
+				break;
+
+			case 4:
+				if (books.get(i).list.size() == 0) {
+					System.out.println("Addressbook is empty");
+				} else {
+					books.get(i).list.sort((Contact x1, Contact x2) -> x1.firstName.compareTo(x2.firstName));
+					books.get(i).list.forEach((s) -> System.out.println(s));
+				}
 				break;
 			default:
 				System.out.println("Enter valid command");
