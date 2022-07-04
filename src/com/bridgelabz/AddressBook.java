@@ -59,11 +59,9 @@ public class AddressBook {
 				System.out.println("No contact with the given name exist");
 			}
 		}
-
 	}
 
 	public static void main(String[] args) {
-
 		System.out.println("Welcome to Address Book Program ");
 
 		BookList shelf = new BookList();
@@ -72,7 +70,7 @@ public class AddressBook {
 			AddressBook addressBook = new AddressBook();
 			Scanner scan3 = new Scanner(System.in);
 			System.out.println(
-					"Enter the name of Book you want to  access or add  or type 'search' to search persons or press 'q' to quit");
+					"Enter the name of Book you want to  access or add  or type 'city' to search persons by city or type 'state' to search by state or press 'q' to quit");
 			String bookName = scan3.nextLine();
 			if (bookName.equals("q")) {
 				// if (addressBook.list.size() > 0) {
@@ -80,11 +78,17 @@ public class AddressBook {
 				// }
 				System.out.println("The program is closed");
 				break;
-			} else if (bookName.equals("search")) {
+			} else if (bookName.equals("city")) {
 				Scanner scan = new Scanner(System.in);
-				System.out.println("Enter the name of city or state you want to search :");
+				System.out.println("Enter the name of city  :");
 				String placeName = scan.nextLine();
-				shelf.showPersons(placeName);
+				shelf.showPersonsByCity(placeName);
+				continue;
+			} else if (bookName.equals("state")) {
+				Scanner scan = new Scanner(System.in);
+				System.out.println("Enter the name of state  :");
+				String placeName = scan.nextLine();
+				shelf.showPersonsByState(placeName);
 				continue;
 			}
 			int result = shelf.checkBook(bookName);//// (It can return 0 or 1)It will return 1 if book exist b and
@@ -100,15 +104,12 @@ public class AddressBook {
 				int input = scan.nextInt();
 
 				if (input == 0) {
-
 					addressBook.addContact();
-
 				} else if (input == 1) {
 					Scanner scan1 = new Scanner(System.in);
 					System.out.println("Enter the first name of person you to edit ");
 					String name = scan1.nextLine();
 					addressBook.editPerson(name, addressBook.list);
-
 				} else if (input == 2) {
 					Scanner scan2 = new Scanner(System.in);
 					System.out.println("Enter the first name of the person you want to delete : ");
@@ -122,7 +123,6 @@ public class AddressBook {
 				}
 			}
 		}
-
 	}
 
 }
