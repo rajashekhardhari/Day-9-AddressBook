@@ -3,7 +3,6 @@ package com.bridgelabz;
 import java.util.Scanner;
 
 public class Contact {
-
 	//// variables representation////
 	String firstName;
 	String lastName;
@@ -37,8 +36,8 @@ public class Contact {
 
 	@Override
 	public String toString() {
-		return "Contact [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", city=" + city
-				+ ", state=" + state + ", phoneNumber=" + phoneNumber + ", email=" + email + ", zip=" + zip + "]";
+		return firstName + "," + lastName + "," + address + "," + city + "," + state + "," + phoneNumber + "," + email
+				+ "," + zip;
 	}
 
 }

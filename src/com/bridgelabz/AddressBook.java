@@ -1,102 +1,75 @@
 package com.bridgelabz;
 
-import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 
 public class AddressBook {
+	BookList bookList = new BookList();
 
-	ArrayList<Contact> list = new ArrayList<Contact>();//// It represents a single diary where contact has been stored
-	String bookName; /// It represent the name of diary
+	void addContact(File file) throws IOException {
 
-	void addContact() {
 		Contact contact = new Contact();
 		contact.addContact();
-		boolean duplicateContact = list.stream().anyMatch(x -> x.firstName.equals(contact.firstName));
+		String contactDetails = contact.toString();
+		Scanner sc = new Scanner(file);
+		StringBuffer sb = new StringBuffer();
+		BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+		while (sc.hasNext()) {
+			System.out.println(1);
+			sb.append(sc.nextLine());
+			sb.append("\n");
+		}
+		boolean duplicateContact = bookList.duplicateContact(file, contact.firstName);
 		if (duplicateContact == true) {
 			System.out.println("It is a duplicate contact.");
+			bw.close();
 			return;
 		} else {
-			list.add(contact);
+			sb.append(contactDetails + "\n");
+			bw.write(sb.toString());
+			bw.flush();
+			bw.close();
 			System.out.println("Contact added successfully");
 		}
 
 	}
 
-	void deletePerson(String name, ArrayList<Contact> list) {
-		if (list.size() == 0) {
-			System.out.println("Address book is empty.Please Add First");
-		} else {
-			int m = 0;
-			for (int i = list.size() - 1; i >= 0; --i) {
-				if (list.get(i).firstName.contains(name)) {
-					list.remove(i);
-					System.out.println("Contact deleted successfully");
-					m += 1;
-					break;
-				}
-			}
-			if (m == 0) {
-				System.out.println("No contact with the given name exist");
-			}
-		}
-
+	void deletePerson(String name, String bookName) throws IOException {
+		File file = new File(
+				"C:\\Users\\SR COMPUTER\\Documents\\BridzeLabs\\RFP\\Day22AddressBook\\src\\com\\bridgelabz\\"
+						+ bookName + ".txt");
+		bookList.deleteContact(file, name);
 	}
 
-	void editPerson(String name, ArrayList<Contact> list) {
-		if (list.size() == 0) {
-			System.out.println("Addressbook is empty.Please add First");
-		} else {
-			int m = 0;
-			for (int i = list.size() - 1; i >= 0; --i) {
-				if (list.get(i).firstName.contains(name)) {
-					list.get(i).addContact();
-					System.out.println("Contact Updated successfully");
-					m += 1;
-					break;
-				}
-			}
-			if (m == 0) {
-				System.out.println("No contact with the given name exist");
-			}
-		}
-
+	void editPerson(String name, String bookName) throws IOException {
+		File file = new File(
+				"C:\\Users\\SR COMPUTER\\Documents\\BridzeLabs\\RFP\\Day22AddressBook\\src\\com\\bridgelabz\\"
+						+ bookName + ".txt");
+		bookList.updateContact(file, bookName);
 	}
 
-	public int sort(int option, AddressBook addressBook) {
-		int a = 0;
-		switch (option) {
-		case 0:
-			addressBook.list.sort((Contact x1, Contact x2) -> x1.firstName.compareTo(x2.firstName));
-			addressBook.list.forEach((s) -> System.out.println(s));
-			break;
-
-		case 1:
-			addressBook.list.sort((Contact x1, Contact x2) -> x1.city.compareTo(x2.city));
-			addressBook.list.forEach((s) -> System.out.println(s));
-			break;
-		case 2:
-			addressBook.list.sort((Contact x1, Contact x2) -> x1.state.compareTo(x2.state));
-			addressBook.list.forEach((s) -> System.out.println(s));
-			break;
-		case 3:
-			addressBook.list.sort((Contact x1, Contact x2) -> x1.zip.compareTo(x2.zip));
-			addressBook.list.forEach((s) -> System.out.println(s));
-			break;
-		default:
-			System.out.println("Enter valid option");
-			a = 1;
-			break;
-		}
-		return a;
+	boolean viewSortedResult(int option, String bookName) throws IOException {
+		File file = new File(
+				"C:\\Users\\SR COMPUTER\\Documents\\BridzeLabs\\RFP\\Day22AddressBook\\src\\com\\bridgelabz\\"
+						+ bookName + ".txt");
+		return bookList.viewSortedResult(file, option);
 	}
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-		System.out.println("Welcome to Address Book Program ");
-
+	public static void main(String[] args) throws IOException {
 		BookList shelf = new BookList();
-
+		System.out.println("Welcome to Address Book Program ");
 		while (true) {
 			AddressBook addressBook = new AddressBook();
 			Scanner scan3 = new Scanner(System.in);
@@ -122,9 +95,12 @@ public class AddressBook {
 				shelf.showPersonsByState(placeName);
 				continue;
 			}
-			int result = shelf.checkBook(bookName);//// (It can return 0 or 1)It will return 1 if book exist b and break
-			//// down loop
+			int result = shelf.checkBook(bookName);//// (It can return 0 or 1)It will return 1 if book exist b and
+													//// breakdown loop
 			int condition = 0;///// It will keep check on the addressbook created or not
+			File file = new File(
+					"C:\\Users\\SR COMPUTER\\Documents\\BridzeLabs\\RFP\\Day22AddressBook\\src\\com\\bridgelabz\\"
+							+ bookName + ".txt");
 			while (true) {
 				if (result == 1) {
 					break;
@@ -135,44 +111,38 @@ public class AddressBook {
 				int input = scan.nextInt();
 
 				if (input == 0) {
-					addressBook.addContact();
+					addressBook.addContact(file);
 
 				} else if (input == 1) {
 					Scanner scan1 = new Scanner(System.in);
-					System.out.println("Enter the first name of person you to edit ");
+					System.out.println("Enter the first name of person you want to edit ");
 					String name = scan1.nextLine();
-					addressBook.editPerson(name, addressBook.list);
+					addressBook.editPerson(name, bookName);
 
 				} else if (input == 2) {
 					Scanner scan2 = new Scanner(System.in);
 					System.out.println("Enter the first name of the person you want to delete : ");
 					String name = scan2.nextLine();
-					addressBook.deletePerson(name, addressBook.list);
+					addressBook.deletePerson(name, bookName);
 				}
 
 				else if (input == 3) {
-					shelf.addBook(bookName, addressBook);
 					break;
 				} else if (input == 4) {
 					Scanner scan4 = new Scanner(System.in);
-					while (true) {
+					boolean value = true;
+					while (value) {
 						System.out.println(
 								"Press \n 0 to sort by contact name \n 1 to sort by city \n 2 to sort by state \n 3 to sort by zip");
 						int response = scan4.nextInt();
-						int a = addressBook.sort(response, addressBook);
-						if (a == 0) {
-							break;
-						}
+						value = addressBook.viewSortedResult(response, bookName);
 					}
 
-				}
-
-				else {
+				} else {
 					System.out.println("Enter the valid command");
 				}
 			}
 		}
 
 	}
-
 }
